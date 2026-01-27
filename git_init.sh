@@ -26,4 +26,3 @@ echo "Remote repository set and pushed to master branch."
 
 git push -u origin master
 echo "Changes pushed to remote repository."
-
