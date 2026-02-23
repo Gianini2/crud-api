@@ -1,29 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 
-## If not configured:
-# git config --global user.name "Seu Nome"
-# git config --global user.email "seu-email@example.com"
+GITHUB_USER=$1
+REPO_NAME=$2
+BRANCH=${3:-master}   # default = master
+
+if [ -z "$GITHUB_USER" ] || [ -z "$REPO_NAME" ]; then
+  echo "Usage: $0 <github-username> <repo-name> [branch]"
+  exit 1
+fi
 
 git init
 git add .
 git commit -m "Initial commit"
-echo "Repository initialized and first commit made."
+echo ">> Repository initialized and first commit made."
 
-git remote add origin https://github.com/Gianini2/crud-api
-echo "Remote repository added."
+git remote add origin "https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
+echo ">> Remote repository added."
 
-git branch -M master
-echo "Branch renamed to master."
+git branch -M "$BRANCH"
+echo ">> Branch renamed to $BRANCH."
 
 git fetch origin
-echo "Fetched changes from remote repository."
+echo ">> Fetched changes from remote repository."
 
-git pull origin master --allow-unrelated-histories
-echo "Pulled changes from remote repository (for guarantee)."
+git pull origin "$BRANCH" --allow-unrelated-histories
+echo ">> Pulled changes from remote repository."
 
-git branch --set-upstream-to=origin/master master
-echo "Remote repository set and pushed to master branch."
+git branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
+git push -u origin "$BRANCH"
 
-git push -u origin master
-echo "Changes pushed to remote repository."
-
+echo ">> Changes pushed to remote repository."
