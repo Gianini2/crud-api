@@ -1,10 +1,13 @@
 # crud-api repo
-CRUD python API for SQL
+CRUD python API for SQL, using FastAPI.
 
+## How the API works:
 
-## What this does:
+## About this project:
+- Serves as a sample of the implementation of a CRUD API using FastAPI and PostgreSQL, in a dockerized environment.
+- This API will allow you to perform Create, Read, Update, and Delete operations on a PostgreSQL database using FastAPI.
 
+## Initial setup for this project:
 
-## Git Initialization Script:
-    1. Create a new repository on GitHub named `crud-api`.
-    2. Run with your git-bash or WSL the script git_init.sh, with `./git_init.sh` to initialize the repository and push the initial commit to GitHub to start tracking your code.
+### 2. Docker Setup:
+    1. Ensure you have Docker installed and running on your machine.
