@@ -1,5 +1,8 @@
--- Criação de schema específico
-CREATE SCHEMA IF NOT EXISTS schema1 AUTHORIZATION user1;
+GRANT ALL PRIVILEGES ON DATABASE database1 TO user1;
+
+CREATE SCHEMA IF NOT EXISTS schema1;
+
+CREATE TYPE gender AS ENUM('M', 'F');
 
 -- Criação de tabela dentro do schema
 CREATE TABLE IF NOT EXISTS schema1.employees (
@@ -9,12 +12,10 @@ CREATE TABLE IF NOT EXISTS schema1.employees (
     last_name   VARCHAR(16)     NOT NULL,
     gender      gender          NULL,
     hire_date   DATE            NOT NULL,
-    PRIMARY KEY (emp_no)
+    PRIMARY KEY (
+        emp_no
+    )
 );
-
--- Permissões
-GRANT ALL PRIVILEGES ON SCHEMA schema1 TO user1;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA schema1 TO user1;
 
 -- Dados
 COPY schema1.employees (emp_no, birth_date, first_name, last_name, gender, hire_date) FROM stdin;
