@@ -1,11 +1,8 @@
-DROP DATABASE IF EXISTS database1;
-CREATE DATABASE database1;
-
 -- Criação de schema específico
-CREATE SCHEMA schema1 AUTHORIZATION app_user;
+CREATE SCHEMA IF NOT EXISTS schema1 AUTHORIZATION user1;
 
 -- Criação de tabela dentro do schema
-CREATE TABLE schema1.employees (
+CREATE TABLE IF NOT EXISTS schema1.employees (
     emp_no      INT             NOT NULL,
     birth_date  DATE            NOT NULL,
     first_name  VARCHAR(14)     NOT NULL,
@@ -16,8 +13,8 @@ CREATE TABLE schema1.employees (
 );
 
 -- Permissões
-GRANT ALL PRIVILEGES ON SCHEMA schema1 TO app_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA schema1 TO app_user;
+GRANT ALL PRIVILEGES ON SCHEMA schema1 TO user1;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA schema1 TO user1;
 
 -- Dados
 COPY schema1.employees (emp_no, birth_date, first_name, last_name, gender, hire_date) FROM stdin;
