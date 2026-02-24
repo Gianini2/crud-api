@@ -9,5 +9,6 @@ CRUD python API for SQL, using FastAPI.
 
 ## Initial setup for this project:
 
-### 2. Docker Setup:
-    1. Ensure you have Docker installed and running on your machine.
+1. **Docker Setup:** Ensure you have [Docker](https://www.docker.com/products/docker-desktop/) installed and running on your machine.
+2. **Clone the Repository**
+3. Run `$ docker-compose up --build`
