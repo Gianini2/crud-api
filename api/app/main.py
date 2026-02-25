@@ -26,7 +26,7 @@ def dbdescribe():
 
 @app.get("/env")
 def show_env():
-    return {"database_url": os.getenv("DATABASE_URL")}
+    return {"database_url": os.getenv("DATABASE_URL")} ## TODO: Security issue: password exposed 
 
 @app.get("/items", response_model=list[schemas.ItemRead])
 def read_items(db: Session = Depends(get_db)):
