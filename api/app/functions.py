@@ -1,5 +1,6 @@
+import pandas as pd
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, inspect
 from . import models, schemas
 import os
 
@@ -12,13 +13,46 @@ def create_item(db: Session, item: schemas.ItemCreate):
     db.refresh(db_item)
     return db_item
 
+def get_table_data(db: Session, schema: str, table: str):
+    inspector = inspect(db.bind)
 
-def get_item(db: Session, item_id: int):
-    return db.query(models.Item).filter(models.Item.id == item_id).first()
+    # validate schema
+    schemas = inspector.get_schema_names()
+    if schema not in schemas:
+        raise ValueError(f"Schema '{schema}' does not exist")
 
+    # validate table
+    tables = inspector.get_table_names(schema=schema)
+    if table not in tables:
+        raise ValueError(f"Table '{table}' does not exist in schema '{schema}'")
 
-def get_items(db: Session):
-    return db.query(models.Item).all()
+    result = db.execute(
+        text(f'SELECT * FROM "{schema}"."{table}"')
+    )
+
+    columns = result.keys()
+    rows = result.fetchall()
+
+    # convert to list of dicts (pandas-style)
+    return [dict(zip(columns, row)) for row in rows]
+
+def insert_table_from_payload(db: Session, schema: str, table: str, payload: list[dict]):
+    df = pd.DataFrame(payload)
+
+    df.to_sql(
+        name=table,
+        con=db.bind,
+        schema=schema,
+        if_exists="fail",   # assure no overwriting
+        index=False
+    )
+
+    return {
+        "status": "table created",
+        "table": f"{schema}.{table}",
+        "rows_inserted": len(df),
+        "columns": list(df.columns)
+    }
 
 
 def update_item(db: Session, item_id: int, item: schemas.ItemUpdate):
