@@ -1,6 +1,6 @@
 # Custom:
 tests/git_init.sh
-tests/development.ipynb
+development.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
